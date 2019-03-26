@@ -28,29 +28,32 @@ This stream will work in object mode; in those cases an additional `line` event 
 options = {
 
     fields: [
-    {
-        value: <string> | <function>,
-        width: <integer>,
-        regex: <RegExp>,
-        order: <integer>,
-        scale: <integer>
-    }],
+        {
+            value: <string> | <function>,
+            width: <integer>,
+            regex: <RegExp>,
+            order: <integer>,
+            scale: <integer>
+        }
+    ],
     header: [
-    {
-        value: <string> | <function>,
-        width: <integer>,
-        regex: <RegExp>,
-        scale: <integer>,
-        order: <integer>
-    }],
+        {
+            value: <string> | <function>,
+            width: <integer>,
+            regex: <RegExp>,
+            scale: <integer>,
+            order: <integer>
+        }
+    ],
     footer: [
-    {
-        value: <string> | <function>,
-        width: <integer>,
-        regex: <RegExp>,
-        scale: <integer>,
-        order: <integer>
-    }],
+        {
+            value: <string> | <function>,
+            width: <integer>,
+            regex: <RegExp>,
+            scale: <integer>,
+            order: <integer>
+        }
+    ],
     headerRequired: <boolean>, // throw error if no header is found
     footerRequired: <boolean> // throw error if no footer is found once the stream has closed
 
@@ -61,15 +64,15 @@ options = {
 
 Each field component is made up of the following attributes:
 
-- `value`: Default field will be named FIELD\_[order || index] if value is undefined or not a string
+- `value`: Default field will be named FIELD\_[order || index] if value is undefined or not a string.
 
-- `width`: Width of this column
+- `width`: Width of this column.
 
-- `regex` (optional): Field will only be considered valid if a regex is defined and it matches against the parsed field
+- `regex` (optional): Field will only be considered valid if a regex is defined and it matches against the parsed field.
 
-- `order` (optional): Defines the order of the fields as they appear in the text file; should be consistently defined for all fields or none of them, otherwise unpredictable results may occur
+- `order` (optional): Defines the order of the fields as they appear in the text file; should be consistently defined for all fields or none of them, otherwise unpredictable results may occur.
 
-- `scale` (optional): Field will be scaled by a factor of 10, unless scale < 1 or left undefined; especially useful for flat files with no floating point specification to define the number of 0s in a field which are decimal places 
+- `scale` (optional): Field will be scaled by a factor of 10, unless scale < 1 or left undefined; especially useful for flat files with no floating point specification to define the number of 0s in a field which are decimal places.
 
 ### Stream Events
 
