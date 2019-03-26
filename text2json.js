@@ -27,7 +27,7 @@ const Transform = require('stream').Transform
  * }
  */
 
-class text2json extends Transform {
+class file2json-stream extends Transform {
   constructor (options, transformOptions) {
     super(transformOptions)
     this._lineCount = 1
@@ -182,4 +182,4 @@ class text2json extends Transform {
   }
 }
 
-module.exports = text2json
+module.exports = file2json-stream

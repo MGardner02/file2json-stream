@@ -1,17 +1,15 @@
 {
-	"name": "text2json",
+	"name": "file2json-stream",
 	"version": "1.0.0",
 	"description": "Parses files with a fixed record format",
 	"license": "MIT",
-	"repository": "mgardner02/text2json",
+	"repository": "mgardner02/file2json-stream",
 	"main": "index.js",
 	"keywords": [],
 	"scripts": {
 		"lint": "eslint ."
 	},
-	"dependencies": {
-		"json2csv": "^4.4.0"
-	},
+	"dependencies": {},
 	"devDependencies": {
 		"eslint": "^5.15.3",
 		"eslint-config-standard": "^12.0.0",

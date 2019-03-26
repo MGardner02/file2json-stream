@@ -1,8 +1,8 @@
 'use strict'
 
-const text2json = require('./text2json')
+const file2jsonStream = require('./file2json-stream')
 
-exports.Transform = text2json
+exports.Transform = file2jsonStream
 
 // Order matters use event-stream map function
 
