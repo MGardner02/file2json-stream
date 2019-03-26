@@ -1,7 +1,7 @@
 {
 	"name": "file2json-stream",
 	"version": "1.0.0",
-	"description": "Parses files with a fixed record format",
+	"description": "Parses fixed record text files in stream into JSON objects",
 	"license": "MIT",
 	"repository": "mgardner02/file2json-stream",
 	"main": "index.js",
