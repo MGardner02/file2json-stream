@@ -2,6 +2,7 @@
 const Text2jsonTransform = require('../index').Transform
 const stream = require('stream')
 var assert = require('chai').assert;
+var es = require('event-stream')
 
 const mockReadStream = (array) => {
     var index = 0;
@@ -81,10 +82,7 @@ describe('Array', function () {
 
         it('should parse basic read stream without object mode', function (done) {
             var contents = [
-                'HEADER\n',
-                'LINE001\n',
-                'LINE002\n',
-                'FOOTER\n'
+                'HEADER\nLINE001\nLINE002\nFOOTER\n'
             ];
 
             var options = {
@@ -120,14 +118,12 @@ describe('Array', function () {
                 console.log(err)
                 assert.fail(err)
                 done()
-            }).on('line', line => {
-                parsedLines.push(line)
             }).on('header', header => {
-                assert.equal(header.header, 'HEADER')
+                assert.equal(JSON.parse(header).header, 'HEADER')
             }).on('footer', footer => {
-                assert.equal(footer.footer, 'FOOTER')
+                assert.equal(JSON.parse(footer).footer, 'FOOTER')
             }).on('invalid', invalid => {
-                assert.fail(JSON.stringify(invalid))
+                assert.fail(invalid)
             })
 
             var input = mockReadStream(contents)
@@ -136,7 +132,7 @@ describe('Array', function () {
                 done();
             })
 
-            input.pipe(text2json)
+            input.pipe(text2json).pipe(es.through((line) => parsedLines.push(line)))
         })
 
         it('should throw an error for a missing footer', function (done) {
