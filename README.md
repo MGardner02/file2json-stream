@@ -2,6 +2,7 @@
 
 [![npm (scoped)](https://img.shields.io/npm/v/file2json-stream.svg)](https://github.com/MGardner02/file2json-stream)
 [![npm bundle size (minified)](https://img.shields.io/bundlephobia/min/file2json-stream.svg)](https://github.com/MGardner02/file2json-stream)
+[![Build Status](https://travis-ci.org/MGardner02/file2json-stream.svg?branch=master)](https://travis-ci.org/MGardner02/file2json-stream)
 [![codecov](https://codecov.io/gh/MGardner02/file2json-stream/branch/master/graph/badge.svg)](https://codecov.io/gh/MGardner02/file2json-stream)
 
 The purpose of this module is to provide a simple in-stream interface to process text files line by line, with a known set of fields. The initial release will allow parsing of fields with fixed widths, with future plans to add the ability to break up lines using regex patterns.
