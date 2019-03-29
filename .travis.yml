@@ -4,7 +4,8 @@ node_js:
 install:
   - npm install -g codecov
   - npm install -g nyc
+  - npm install -g mocha
 script:
-  - mkdir .nyc_output
+  - npm run test
   - npm run report-coverage
   - codecov
