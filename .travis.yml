@@ -5,6 +5,5 @@ install:
   - npm install -g codecov
   - npm install -g nyc
 script:
-  - npm run test
   - npm run report-coverage
   - codecov
