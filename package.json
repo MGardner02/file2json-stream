@@ -5,7 +5,17 @@
   "license": "MIT",
   "repository": "mgardner02/file2json-stream",
   "main": "index.js",
-  "keywords": [],
+  "keywords": [
+	  "text",
+	  "to",
+	  "json",
+	  "parse",
+	  "flat",
+	  "file",
+	  "fixed",
+	  "record",
+	  "stream"
+  ],
   "scripts": {
     "test": "nyc mocha",
     "lint": "eslint .",
