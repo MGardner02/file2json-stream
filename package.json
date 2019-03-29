@@ -1,20 +1,20 @@
 {
   "name": "file2json-stream",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Parses fixed record text files in stream into JSON objects",
   "license": "MIT",
   "repository": "mgardner02/file2json-stream",
   "main": "index.js",
   "keywords": [
-	  "text",
-	  "to",
-	  "json",
-	  "parse",
-	  "flat",
-	  "file",
-	  "fixed",
-	  "record",
-	  "stream"
+    "text",
+    "to",
+    "json",
+    "parse",
+    "flat",
+    "file",
+    "fixed",
+    "record",
+    "stream"
   ],
   "scripts": {
     "test": "nyc mocha",
