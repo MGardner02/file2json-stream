@@ -80,6 +80,50 @@ describe('Array', function () {
             input.pipe(text2json)
         })
 
+        it('should parse basic read stream without header or footer', function (done) {
+            var contents = [
+                'LINE001\n',
+                'LINE002\n',
+            ];
+
+            var options = {
+                fields: [{
+                    label: 'Text Column',
+                    width: 4,
+                    value: 'text'
+                }, {
+                    label: 'Line Number',
+                    width: 3,
+                    scale: 0,
+                    value: 'record'
+                }],
+                headerRequired: true,
+                footerRequired: false
+            }
+            var transformOpts = {
+                objectMode: true
+            }
+            var text2json = new Text2jsonTransform(options, transformOpts)
+            var parsedLines = []
+            text2json.on('error', err => {
+                console.log(err)
+                assert.fail(err)
+                done()
+            }).on('line', line => {
+                parsedLines.push(line)
+            }).on('invalid', invalid => {
+                assert.fail(JSON.stringify(invalid))
+            })
+
+            var input = mockReadStream(contents)
+            input.on('end', () => {
+                assert.equal(parsedLines.length, 2)
+                done();
+            })
+
+            input.pipe(text2json)
+        })
+
         it('should parse basic read stream without object mode', function (done) {
             var contents = [
                 'HEADER\nLINE001\nLINE002\nFOOTER\n'
@@ -109,10 +153,7 @@ describe('Array', function () {
                 headerRequired: true,
                 footerRequired: false
             }
-            var transformOpts = {
-                objectMode: false
-            }
-            var text2json = new Text2jsonTransform(options, transformOpts)
+            var text2json = new Text2jsonTransform(options)
             var parsedLines = []
             text2json.on('error', err => {
                 console.log(err)
@@ -214,6 +255,55 @@ describe('Array', function () {
                     value: 'footer'
                 }],
                 headerRequired: true,
+                footerRequired: true
+            }
+            var transformOpts = {
+                objectMode: true
+            }
+            var text2json = new Text2jsonTransform(options, transformOpts)
+            text2json.on('error', err => {
+                assert.equal(err.message, 'Invalid Header')
+                done()
+            }).on('header', header => {
+                assert.equal(header.header, 'HEADER')
+            }).on('invalid', invalid => {
+                assert.equal(invalid.invalidFields, 'header')
+            }).on('finish', () => done())
+
+            var input = mockReadStream(contents)
+
+            input.pipe(text2json)
+        })
+
+        it('should not throw an error for a missing header', function (done) {
+            var contents = [
+                'LINE001\n',
+                'LINE002\n',
+                'FOOTER\n'
+            ];
+
+            var options = {
+                fields: [{
+                    label: 'Text Column',
+                    width: 4,
+                    value: 'text'
+                }, {
+                    label: 'Line Number',
+                    width: 3,
+                    scale: 0,
+                    value: 'record'
+                }],
+                header: [{
+                    label: 'Header',
+                    width: 6,
+                    value: 'header'
+                }],
+                footer: [{
+                    label: 'Footer',
+                    width: 6,
+                    value: 'footer'
+                }],
+                headerRequired: false,
                 footerRequired: true
             }
             var transformOpts = {
@@ -562,6 +652,62 @@ describe('Array', function () {
                 done()
             }).on('line', line => {
                 assert.ok(line.FIELD_1)
+                validLines.push(line)
+            }).on('invalid', invalid => {
+                assert.fail(invalid)
+            })
+
+            var input = mockReadStream(contents)
+            input.on('end', () => {
+                assert.equal(validLines.length, 1)
+                assert.equal(validLines[0].lineNumber, 2)
+                done()
+            })
+
+            input.pipe(text2json)
+        })
+
+        it('should name the first row FIELD_1 without defined order or value', function (done) {
+            var contents = [
+                'HEADER\n',
+                'LINE010\n',
+                'FOOTER\n'
+            ];
+
+            var options = {
+                fields: [{
+                    label: 'Text Column',
+                    width: 4
+                }, {
+                    label: 'Line Number',
+                    width: 3,
+                    scale: 0,
+                    regex: /[0-9][0-9][0-9]/
+                }],
+                header: [{
+                    label: 'Header',
+                    width: 6,
+                    value: 'header'
+                }],
+                footer: [{
+                    label: 'Footer',
+                    width: 6,
+                    value: 'footer'
+                }],
+                headerRequired: true,
+                footerRequired: false
+            }
+            var transformOpts = {
+                objectMode: true
+            }
+            var validLines = [];
+            var text2json = new Text2jsonTransform(options, transformOpts)
+            text2json.on('error', err => {
+                assert.fail(err)
+                done()
+            }).on('line', line => {
+                assert.equal(line.FIELD_1, 'LINE')
+                assert.equal(line.FIELD_2, 10)
                 validLines.push(line)
             }).on('invalid', invalid => {
                 assert.fail(invalid)
